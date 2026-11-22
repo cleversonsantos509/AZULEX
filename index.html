@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full">
+<html lang="pt-BR" class="h-full dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,10 +97,6 @@
                         <i class="fa-solid fa-list-ul"></i>
                         <span class="hidden sm:inline">Ver Tabela das Fotos</span>
                         <span class="sm:hidden">Fotos</span>
-                    </button>
-                    <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                        <i class="fa-solid fa-moon dark:hidden"></i>
-                        <i class="fa-solid fa-sun hidden dark:block"></i>
                     </button>
                 </div>
             </div>
@@ -403,16 +399,9 @@
             renderResults();
             buildModalContent();
             
-            // System Dark Mode Preference Check
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
-            }
+            // Garante que o modo noturno sempre esteja ativado
+            document.documentElement.classList.add('dark');
         });
-
-        // Theme Toggle Function
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-        }
 
         // Populate State Dropdown Options
         function populateStateSelect() {
