@@ -282,12 +282,9 @@
         // Comprehensive Database of all codes present on the updated CWB Roteirização lists.
         const ROUTING_DATA = [
             // --- GUARULHOS – GRU ---
-            { code: "REC", city: "Recife", state: "Pernambuco", uf: "PE", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Nordeste" },
             { code: "PNZ", city: "Petrolina", state: "Pernambuco", uf: "PE", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Nordeste" },
             { code: "NAT", city: "Natal", state: "Rio Grande do Norte", uf: "RN", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Nordeste" },
             { code: "MVF", city: "Mossoró", state: "Rio Grande do Norte", uf: "RN", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Nordeste" },
-            { code: "JPA", city: "João Pessoa", state: "Paraíba", uf: "PB", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Nordeste" },
-            { code: "CGB", city: "Cuiabá", state: "Mato Grosso", uf: "MT", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Centro-Oeste" },
             { code: "BVH", city: "Vilhena", state: "Rondônia", uf: "RO", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Norte" },
             { code: "AFL", city: "Alta Floresta", state: "Mato Grosso", uf: "MT", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Centro-Oeste" },
             { code: "JPR", city: "Ji-Paraná", state: "Rondônia", uf: "RO", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Norte" },
@@ -300,8 +297,13 @@
             // --- CONGONHAS - CGH ---
             { code: "BSB", city: "Brasília", state: "Distrito Federal", uf: "DF", hub: "CONGONHAS – CGH", hubCode: "CGH", region: "Centro-Oeste" },
             { code: "CDS", city: "Caçador", state: "Santa Catarina", uf: "SC", hub: "CONGONHAS – CGH", hubCode: "CGH", region: "Sul" },
+            { code: "CGB", city: "Cuiabá", state: "Mato Grosso", uf: "MT", hub: "CONGONHAS – CGH", hubCode: "CGH", region: "Centro-Oeste" },
+            { code: "FOR", city: "Fortaleza", state: "Ceará", uf: "CE", hub: "CONGONHAS – CGH", hubCode: "CGH", region: "Nordeste" },
+            { code: "REC", city: "Recife", state: "Pernambuco", uf: "PE", hub: "CONGONHAS – CGH", hubCode: "CGH", region: "Nordeste" },
             { code: "SÃO", city: "São Paulo (Geral / SP)", state: "São Paulo", uf: "SP", hub: "CONGONHAS – CGH", hubCode: "CGH", region: "Sudeste" },
             { code: "SDU", city: "Rio de Janeiro (Santos Dumont)", state: "Rio de Janeiro", uf: "RJ", hub: "CONGONHAS – CGH", hubCode: "CGH", region: "Sudeste" },
+            { code: "SLZ", city: "São Luís", state: "Maranhão", uf: "MA", hub: "CONGONHAS – CGH", hubCode: "CGH", region: "Nordeste" },
+            { code: "THE", city: "Teresina", state: "Piauí", uf: "PI", hub: "CONGONHAS – CGH", hubCode: "CGH", region: "Nordeste" },
 
             // --- PORTO ALEGRE -- POA ---
             { code: "ALQ", city: "Alegrete", state: "Rio Grande do Sul", uf: "RS", hub: "PORTO ALEGRE – POA", hubCode: "POA", region: "Sul" },
@@ -315,6 +317,7 @@
             // --- CONFINS – CNF ---
             { code: "AJU", city: "Aracaju", state: "Sergipe", uf: "SE", hub: "CONFINS – CNF", hubCode: "CNF", region: "Nordeste" },
             { code: "ATM", city: "Altamira", state: "Pará", uf: "PA", hub: "CONFINS – CNF", hubCode: "CNF", region: "Norte" },
+            { code: "BEL", city: "Belém", state: "Pará", uf: "PA", hub: "CONFINS – CNF", hubCode: "CNF", region: "Norte" },
             { code: "BPS", city: "Porto Seguro", state: "Bahia", uf: "BA", hub: "CONFINS – CNF", hubCode: "CNF", region: "Nordeste" },
             { code: "BRA", city: "Barreiras", state: "Bahia", uf: "BA", hub: "CONFINS – CNF", hubCode: "CNF", region: "Nordeste" },
             { code: "CKS", city: "Carajás (Parauapebas)", state: "Pará", uf: "PA", hub: "CONFINS – CNF", hubCode: "CNF", region: "Norte" },
@@ -344,9 +347,7 @@
             { code: "VIX", city: "Vitória", state: "Espírito Santo", uf: "ES", hub: "CONFINS – CNF", hubCode: "CNF", region: "Sudeste" },
             { code: "TUR", city: "Tucuruí", state: "Pará", uf: "PA", hub: "CONFINS – CNF", hubCode: "CNF", region: "Norte" },
             { code: "STM", city: "Santarém", state: "Pará", uf: "PA", hub: "CONFINS – CNF", hubCode: "CNF", region: "Norte" },
-            { code: "FOR", city: "Fortaleza", state: "Ceará", uf: "CE", hub: "CONFINS – CNF", hubCode: "CNF", region: "Nordeste" },
-            { code: "THE", city: "Teresina", state: "Piauí", uf: "PI", hub: "CONFINS – CNF", hubCode: "CNF", region: "Nordeste" },
-            { code: "SLZ", city: "São Luís", state: "Maranhão", uf: "MA", hub: "CONFINS – CNF", hubCode: "CNF", region: "Nordeste" },
+            { code: "JPA", city: "João Pessoa", state: "Paraíba", uf: "PB", hub: "CONFINS – CNF", hubCode: "CNF", region: "Nordeste" },
 
             // --- CAMPINAS – VCP ---
             { code: "ARU", city: "Araçatuba", state: "São Paulo", uf: "SP", hub: "CAMPINAS – VCP", hubCode: "VCP", region: "Sudeste" },
