@@ -93,10 +93,13 @@
 
                 <!-- Right Actions -->
                 <div class="flex items-center gap-2 sm:gap-3">
+                    <button id="soundToggleBtn" onclick="toggleSound()" title="Ativar/Desativar Som e Vibração" class="p-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800 text-amber-400 border border-slate-700 hover:bg-slate-700 transition-all flex items-center gap-1.5">
+                        <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+                    </button>
                     <button id="viewListBtn" onclick="openModal()" class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-list-ul"></i>
-                        <span class="hidden sm:inline">Ver Tabela das Fotos</span>
-                        <span class="sm:hidden">Fotos</span>
+                        <span class="hidden sm:inline">Ver Tabela</span>
+                        <span class="sm:hidden">Tabela</span>
                     </button>
                 </div>
             </div>
@@ -135,6 +138,7 @@
                             placeholder="Digite a sigla (ex: NAT, REC, CGB, BSB, AJU)..." 
                             autocomplete="off"
                             autofocus
+                            onfocus="this.select()"
                             class="w-full pl-12 pr-12 py-4 rounded-2xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 text-base sm:text-lg font-extrabold border-2 border-transparent focus:border-blue-500 focus:outline-none shadow-2xl transition-all uppercase tracking-wider"
                             oninput="handleSearch()"
                         >
@@ -148,8 +152,21 @@
                     </div>
                 </div>
 
-                <!-- Quick Highlight Box for Direct Exact Matches -->
-                <div id="quickResultCard" class="hidden max-w-xl mx-auto mt-4 p-5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-2xl text-left border border-white/20 animate-fade-in">
+                <!-- Auto-Clear Option & Recent Searches -->
+                <div class="max-w-xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-300 pt-1">
+                    <label class="inline-flex items-center gap-2 cursor-pointer select-none bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-xl border border-white/10 transition-colors">
+                        <input type="checkbox" id="autoSelectToggle" checked class="rounded text-blue-500 focus:ring-0 bg-slate-800 border-slate-600">
+                        <span>Modo Bipagem Rápida (substitui ao digitar 3 letras)</span>
+                    </label>
+
+                    <div id="recentSearchesContainer" class="hidden flex items-center gap-1.5 flex-wrap justify-center">
+                        <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-clock-rotate-left"></i> Recentes:</span>
+                        <div id="recentSearchesList" class="flex items-center gap-1"></div>
+                    </div>
+                </div>
+
+                <!-- Quick Highlight Box for Direct Exact Matches (Dynamic Color) -->
+                <div id="quickResultCard" class="hidden max-w-xl mx-auto mt-4 p-5 rounded-2xl text-white shadow-2xl text-left border-2 transition-all duration-300">
                     <!-- Populated dynamically when user searches a sigla -->
                 </div>
 
@@ -381,7 +398,74 @@
             { code: "CWB", city: "Curitiba (Origem Roteirização)", state: "Paraná", uf: "PR", hub: "ORIGEM CWB", hubCode: "CWB", region: "Sul" }
         ];
 
+        // Banner colors by Hub for instant visual identification
+        const HUB_BANNER_STYLES = {
+            "GRU": "bg-gradient-to-r from-emerald-600 to-teal-700 border-emerald-400/50",
+            "CGH": "bg-gradient-to-r from-blue-600 to-indigo-700 border-blue-400/50",
+            "POA": "bg-gradient-to-r from-amber-600 to-orange-700 border-amber-400/50",
+            "CNF": "bg-gradient-to-r from-purple-600 to-fuchsia-700 border-purple-400/50",
+            "VCP": "bg-gradient-to-r from-rose-600 to-red-700 border-rose-400/50",
+            "CWB": "bg-gradient-to-r from-cyan-600 to-blue-700 border-cyan-400/50"
+        };
+
         let selectedHub = "ALL";
+        let soundEnabled = true;
+        let recentSearches = [];
+        let lastAnnouncedCode = "";
+
+        // Audio Context for beeps without external MP3 files
+        function playFeedback(type) {
+            if (!soundEnabled) return;
+
+            // Mobile vibration
+            if (navigator.vibrate) {
+                if (type === 'success') navigator.vibrate(40);
+                if (type === 'error') navigator.vibrate([80, 50, 80]);
+            }
+
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'success') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.09);
+                } else if (type === 'error') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, ctx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(160, ctx.currentTime + 0.18);
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.19);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.19);
+                }
+            } catch (e) {
+                // Ignore audio block errors before user interaction
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            if (soundEnabled) {
+                icon.className = "fa-solid fa-volume-high text-amber-400";
+                playFeedback('success');
+                showCustomToast("Som e vibração ativados!");
+            } else {
+                icon.className = "fa-solid fa-volume-xmark text-slate-500";
+                showCustomToast("Som e vibração desativados.");
+            }
+        }
 
         // Colors mapping for Hub Badges
         const HUB_COLORS = {
@@ -406,6 +490,7 @@
         // Populate State Dropdown Options
         function populateStateSelect() {
             const stateSelect = document.getElementById('stateSelect');
+            stateSelect.innerHTML = '<option value="ALL">Todos os Estados (UF)</option>';
             
             // Get unique UFs and sort them
             const ufs = [...new Map(ROUTING_DATA.map(item => [item.uf, item.state])).entries()];
@@ -441,17 +526,40 @@
             input.value = term;
             handleSearch();
             input.focus();
+            if (document.getElementById('autoSelectToggle').checked) {
+                input.select();
+            }
         }
 
         function clearSearch() {
             document.getElementById('searchInput').value = '';
             document.getElementById('stateSelect').value = 'ALL';
+            lastAnnouncedCode = "";
             setHubFilter('ALL');
+            document.getElementById('searchInput').focus();
+        }
+
+        function addRecentSearch(code) {
+            recentSearches = recentSearches.filter(c => c !== code);
+            recentSearches.unshift(code);
+            if (recentSearches.length > 5) recentSearches.pop();
+
+            const container = document.getElementById('recentSearchesContainer');
+            const list = document.getElementById('recentSearchesList');
+            if (recentSearches.length > 0) {
+                container.classList.remove('hidden');
+                list.innerHTML = recentSearches.map(c => `
+                    <button onclick="setSearch('${c}')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-blue-600 text-amber-300 hover:text-white border border-slate-700 font-mono font-bold text-[11px] transition-colors">
+                        ${c}
+                    </button>
+                `).join('');
+            }
         }
 
         // Search & Filter Processing
         function handleSearch() {
-            const query = document.getElementById('searchInput').value.trim().toUpperCase();
+            const inputEl = document.getElementById('searchInput');
+            const query = inputEl.value.trim().toUpperCase();
             const stateFilter = document.getElementById('stateSelect').value;
             const clearBtn = document.getElementById('clearSearchBtn');
             const quickCard = document.getElementById('quickResultCard');
@@ -460,6 +568,7 @@
                 clearBtn.classList.remove('hidden');
             } else {
                 clearBtn.classList.add('hidden');
+                lastAnnouncedCode = "";
             }
 
             const filtered = ROUTING_DATA.filter(item => {
@@ -484,20 +593,23 @@
             const exactMatches = ROUTING_DATA.filter(item => item.code.toUpperCase() === query);
 
             if (exactMatches.length > 0 && query.length >= 2) {
-                const hubsList = exactMatches.map(m => `<span class="bg-amber-400 text-slate-900 font-black px-2.5 py-1 rounded-lg text-base shadow-sm inline-flex items-center gap-1.5"><i class="fa-solid fa-plane-arrival text-sm"></i> ${m.hub}</span>`).join(' <span class="text-xs opacity-70 font-semibold">ou</span> ');
                 const primaryMatch = exactMatches[0];
+                const bannerTheme = HUB_BANNER_STYLES[primaryMatch.hubCode] || "bg-gradient-to-r from-blue-600 to-indigo-600 border-white/20";
+                
+                const hubsList = exactMatches.map(m => `<span class="bg-white text-slate-900 font-black px-3 py-1 rounded-xl text-lg sm:text-xl shadow-md inline-flex items-center gap-2"><i class="fa-solid fa-plane-arrival text-sm"></i> ${m.hub}</span>`).join(' <span class="text-xs opacity-80 font-semibold">ou</span> ');
 
+                quickCard.className = `max-w-xl mx-auto mt-4 p-5 rounded-2xl text-white shadow-2xl text-left border-2 transition-all duration-300 ${bannerTheme}`;
                 quickCard.innerHTML = `
-                    <div class="flex items-center justify-between border-b border-white/20 pb-2 mb-3">
+                    <div class="flex items-center justify-between border-b border-white/25 pb-2 mb-3">
                         <div class="flex items-center gap-2">
-                            <span class="text-2xl font-black font-mono tracking-widest bg-white/20 px-3 py-0.5 rounded-xl border border-white/30">${primaryMatch.code}</span>
-                            <span class="text-xs font-black uppercase tracking-wider bg-white/20 px-2 py-1 rounded-md">${primaryMatch.uf} - ${primaryMatch.state}</span>
+                            <span class="text-2xl font-black font-mono tracking-widest bg-black/25 px-3 py-0.5 rounded-xl border border-white/30">${primaryMatch.code}</span>
+                            <span class="text-xs font-black uppercase tracking-wider bg-black/25 px-2.5 py-1 rounded-md">${primaryMatch.uf} - ${primaryMatch.state}</span>
                         </div>
-                        <span class="text-xs font-semibold opacity-90"><i class="fa-solid fa-location-dot"></i> ${primaryMatch.city}</span>
+                        <span class="text-xs font-bold opacity-95"><i class="fa-solid fa-location-dot"></i> ${primaryMatch.city}</span>
                     </div>
                     <div>
-                        <span class="text-xs uppercase font-extrabold tracking-wider text-amber-200 block mb-1">
-                            <i class="fa-solid fa-arrow-right-long text-amber-300"></i> ROTEIRIZAÇÃO / VAI PARA:
+                        <span class="text-xs uppercase font-extrabold tracking-wider text-white/90 block mb-1">
+                            <i class="fa-solid fa-arrow-right-long"></i> ROTEIRIZAÇÃO / VAI PARA:
                         </span>
                         <div class="flex flex-wrap items-center gap-2 mt-1">
                             ${hubsList}
@@ -505,8 +617,32 @@
                     </div>
                 `;
                 quickCard.classList.remove('hidden');
+
+                // Trigger audio/history/auto-select once per exact 3-letter code
+                if (lastAnnouncedCode !== query) {
+                    lastAnnouncedCode = query;
+                    playFeedback('success');
+                    addRecentSearch(query);
+
+                    // Auto-select text when 3 characters are typed for instant next scan/typing
+                    if (query.length === 3 && document.getElementById('autoSelectToggle').checked) {
+                        setTimeout(() => {
+                            inputEl.select();
+                        }, 150);
+                    }
+                }
             } else {
                 quickCard.classList.add('hidden');
+                // Play warning sound if user typed 3 letters and nothing matched at all
+                if (query.length === 3 && filtered.length === 0 && lastAnnouncedCode !== `ERR_${query}`) {
+                    lastAnnouncedCode = `ERR_${query}`;
+                    playFeedback('error');
+                    if (document.getElementById('autoSelectToggle').checked) {
+                        setTimeout(() => {
+                            inputEl.select();
+                        }, 150);
+                    }
+                }
             }
 
             renderResults(filtered, query);
@@ -660,11 +796,22 @@
 
         // Modal Control
         function openModal() {
+            buildModalContent();
             document.getElementById('listModal').classList.remove('hidden');
         }
 
         function closeModal() {
             document.getElementById('listModal').classList.add('hidden');
+        }
+
+        function showCustomToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
         }
     </script>
 
