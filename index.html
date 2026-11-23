@@ -2,12 +2,12 @@
 <html lang="pt-BR" class="h-full dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Roteirização CWB - Busca de Siglas e Estados</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -18,18 +18,6 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            200: '#bfdbfe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a8a',
-                        }
                     }
                 }
             }
@@ -39,67 +27,55 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-        }
-        .dark body {
             background-color: #0f172a;
         }
         .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .dark .glass-panel {
-            background: rgba(30, 41, 59, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            height: 4px;
+            width: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
             background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #334155;
             border-radius: 9999px;
-        }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #475569;
         }
     </style>
 </head>
-<body class="h-full text-slate-800 dark:text-slate-100 transition-colors duration-200 flex flex-col min-h-screen">
+<body class="h-full text-slate-100 flex flex-col min-h-screen">
 
-    <!-- Header -->
-    <header class="sticky top-0 z-30 glass-panel border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+    <!-- Compact Header -->
+    <header class="sticky top-0 z-30 glass-panel border-b border-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6">
+            <div class="flex items-center justify-between h-12 sm:h-14">
                 <!-- Logo / Title -->
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-                        <i class="fa-solid fa-plane-departure text-lg"></i>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow">
+                        <i class="fa-solid fa-plane-departure text-sm"></i>
                     </div>
                     <div>
-                        <h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-none">
+                        <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white leading-none">
                             Roteirização CWB
                         </h1>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">
+                        <p class="text-[10px] text-slate-400 leading-tight mt-0.5 hidden sm:block">
                             Consulta Rápida de Siglas & Estados
                         </p>
                     </div>
                 </div>
 
                 <!-- Right Actions -->
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <button id="soundToggleBtn" onclick="toggleSound()" title="Ativar/Desativar Som e Vibração" class="p-2 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800 text-amber-400 border border-slate-700 hover:bg-slate-700 transition-all flex items-center gap-1.5">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <button id="soundToggleBtn" onclick="toggleSound()" title="Som e Vibração" class="w-8 h-8 rounded-lg bg-slate-800 text-amber-400 border border-slate-700 hover:bg-slate-700 transition-all flex items-center justify-center text-xs">
                         <i id="soundIcon" class="fa-solid fa-volume-high"></i>
                     </button>
-                    <button id="viewListBtn" onclick="openModal()" class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-all flex items-center gap-1.5">
+                    <button id="viewListBtn" onclick="openModal()" class="px-2.5 py-1.5 text-xs font-bold rounded-lg bg-blue-950/80 text-blue-400 border border-blue-800/70 hover:bg-blue-900/60 transition-all flex items-center gap-1.5">
                         <i class="fa-solid fa-list-ul"></i>
-                        <span class="hidden sm:inline">Ver Tabela</span>
-                        <span class="sm:hidden">Tabela</span>
+                        <span>Tabela</span>
                     </button>
                 </div>
             </div>
@@ -107,178 +83,169 @@
     </header>
 
     <!-- Main Content Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 py-3 sm:py-6 space-y-3 sm:space-y-5">
 
-        <!-- Search Banner Section -->
-        <div class="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-blue-950 rounded-3xl p-6 sm:p-10 text-white shadow-xl overflow-hidden">
-            <!-- Background Decorative Orbs -->
-            <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute right-1/3 -top-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none"></div>
-
-            <div class="relative z-10 max-w-3xl mx-auto text-center space-y-4">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-400/30">
-                    <i class="fa-solid fa-bolt text-amber-400 text-xs"></i> Busca Instantânea de Siglas
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
-                    Qual é o Estado desta sigla?
-                </h2>
-                <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto">
-                    Digite qualquer sigla das listas de roteirização da CWB (como <span class="font-mono bg-white/10 px-1.5 py-0.5 rounded text-amber-300">REC</span>, <span class="font-mono bg-white/10 px-1.5 py-0.5 rounded text-amber-300">CGB</span>, <span class="font-mono bg-white/10 px-1.5 py-0.5 rounded text-amber-300">AJU</span>, <span class="font-mono bg-white/10 px-1.5 py-0.5 rounded text-amber-300">XAP</span>, <span class="font-mono bg-white/10 px-1.5 py-0.5 rounded text-amber-300">SÃO</span>) para descobrir o Estado, Cidade e Hub.
-                </p>
-
-                <!-- Search Input Box -->
-                <div class="pt-2">
-                    <div class="relative max-w-xl mx-auto">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                            <i class="fa-solid fa-magnifying-glass text-lg"></i>
-                        </div>
-                        <input 
-                            type="text" 
-                            id="searchInput"
-                            placeholder="Digite a sigla (ex: NAT, REC, CGB, BSB, AJU)..." 
-                            autocomplete="off"
-                            autofocus
-                            onfocus="this.select()"
-                            class="w-full pl-12 pr-12 py-4 rounded-2xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 text-base sm:text-lg font-extrabold border-2 border-transparent focus:border-blue-500 focus:outline-none shadow-2xl transition-all uppercase tracking-wider"
-                            oninput="handleSearch()"
-                        >
-                        <button 
-                            id="clearSearchBtn" 
-                            onclick="clearSearch()"
-                            class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-200 transition-colors"
-                        >
-                            <i class="fa-solid fa-circle-xmark text-lg"></i>
-                        </button>
-                    </div>
+        <!-- Compact Search Banner Section -->
+        <div class="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-blue-950 rounded-2xl p-3.5 sm:p-6 text-white shadow-lg border border-slate-800/80 overflow-hidden">
+            <div class="relative z-10 max-w-2xl mx-auto text-center space-y-2.5 sm:space-y-3">
+                
+                <div class="flex items-center justify-between sm:justify-center gap-2">
+                    <h2 class="text-base sm:text-2xl font-extrabold tracking-tight">
+                        Buscar Sigla CWB
+                    </h2>
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-400/30">
+                        <i class="fa-solid fa-bolt text-amber-400"></i> Instantâneo
+                    </span>
                 </div>
 
-                <!-- Auto-Clear Option & Recent Searches -->
-                <div class="max-w-xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-300 pt-1">
-                    <label class="inline-flex items-center gap-2 cursor-pointer select-none bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-xl border border-white/10 transition-colors">
-                        <input type="checkbox" id="autoSelectToggle" checked class="rounded text-blue-500 focus:ring-0 bg-slate-800 border-slate-600">
-                        <span>Modo Bipagem Rápida (substitui ao digitar 3 letras)</span>
+                <!-- Search Input Box -->
+                <div class="relative max-w-xl mx-auto">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <i class="fa-solid fa-magnifying-glass text-sm sm:text-base"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Digite a sigla (ex: NAT, REC, CGB)..." 
+                        autocomplete="off"
+                        autofocus
+                        onfocus="this.select()"
+                        class="w-full pl-10 pr-10 py-2.5 sm:py-3.5 rounded-xl bg-slate-900/95 text-white placeholder-slate-400 text-base sm:text-lg font-black border-2 border-slate-700 focus:border-blue-500 focus:outline-none shadow-inner transition-all uppercase tracking-wider"
+                        oninput="handleSearch()"
+                    >
+                    <button 
+                        id="clearSearchBtn" 
+                        onclick="clearSearch()"
+                        class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-200 transition-colors"
+                    >
+                        <i class="fa-solid fa-circle-xmark text-base"></i>
+                    </button>
+                </div>
+
+                <!-- Auto-Clear & Recent Searches (Single compact row) -->
+                <div class="max-w-xl mx-auto flex flex-wrap items-center justify-between gap-1.5 text-[11px] text-slate-300">
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer select-none bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
+                        <input type="checkbox" id="autoSelectToggle" checked class="w-3.5 h-3.5 rounded text-blue-500 focus:ring-0 bg-slate-800 border-slate-600">
+                        <span>Bipagem rápida (3 letras)</span>
                     </label>
 
-                    <div id="recentSearchesContainer" class="hidden flex items-center gap-1.5 flex-wrap justify-center">
-                        <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-clock-rotate-left"></i> Recentes:</span>
+                    <div id="recentSearchesContainer" class="hidden flex items-center gap-1 flex-wrap">
+                        <span class="text-slate-400 text-[10px]"><i class="fa-solid fa-clock-rotate-left"></i></span>
                         <div id="recentSearchesList" class="flex items-center gap-1"></div>
                     </div>
                 </div>
 
-                <!-- Quick Highlight Box for Direct Exact Matches (Dynamic Color) -->
-                <div id="quickResultCard" class="hidden max-w-xl mx-auto mt-4 p-5 rounded-2xl text-white shadow-2xl text-left border-2 transition-all duration-300">
+                <!-- Quick Highlight Box for Direct Exact Matches -->
+                <div id="quickResultCard" class="hidden max-w-xl mx-auto mt-2 p-3.5 sm:p-4 rounded-xl text-white shadow-xl text-left border-2 transition-all duration-200">
                     <!-- Populated dynamically when user searches a sigla -->
                 </div>
 
-                <!-- Quick tags / examples -->
-                <div class="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-slate-300">
-                    <span class="opacity-75">Exemplos rápidos:</span>
-                    <button onclick="setSearch('NAT')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 transition-colors font-mono font-bold">NAT</button>
-                    <button onclick="setSearch('REC')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 transition-colors font-mono font-bold">REC</button>
-                    <button onclick="setSearch('CGB')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 transition-colors font-mono font-bold">CGB</button>
-                    <button onclick="setSearch('AJU')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 transition-colors font-mono font-bold">AJU</button>
-                    <button onclick="setSearch('BSB')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 transition-colors font-mono font-bold">BSB</button>
+                <!-- Compact Quick Tags -->
+                <div class="flex items-center justify-center gap-1.5 pt-0.5 text-[11px] text-slate-300 overflow-x-auto">
+                    <span class="opacity-70 shrink-0">Ex:</span>
+                    <button onclick="setSearch('NAT')" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 font-mono font-bold">NAT</button>
+                    <button onclick="setSearch('REC')" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 font-mono font-bold">REC</button>
+                    <button onclick="setSearch('CGB')" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 font-mono font-bold">CGB</button>
+                    <button onclick="setSearch('AJU')" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 font-mono font-bold">AJU</button>
+                    <button onclick="setSearch('BSB')" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 font-mono font-bold">BSB</button>
                 </div>
             </div>
         </div>
 
-        <!-- Filters & Stats Bar -->
-        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200 dark:border-slate-700/80 shadow-sm">
+        <!-- Compact Filters & Stats Bar -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 bg-slate-800/80 p-2.5 sm:p-3 rounded-xl border border-slate-700/80">
             
-            <!-- Hub Pills Filter -->
-            <div class="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 custom-scrollbar">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider pr-2 hidden lg:inline">Hub:</span>
-                <button onclick="setHubFilter('ALL')" id="filter-hub-ALL" class="hub-filter-btn active px-3 py-1.5 text-xs font-semibold rounded-xl whitespace-nowrap transition-all bg-blue-600 text-white shadow-sm">
-                    Todos os Hubs
+            <!-- Hub Pills Filter (Horizontal scroll on mobile) -->
+            <div class="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 custom-scrollbar">
+                <button onclick="setHubFilter('ALL')" id="filter-hub-ALL" class="hub-filter-btn active px-2.5 py-1 text-[11px] font-bold rounded-lg whitespace-nowrap transition-all bg-blue-600 text-white">
+                    Todos
                 </button>
-                <button onclick="setHubFilter('GRU')" id="filter-hub-GRU" class="hub-filter-btn px-3 py-1.5 text-xs font-semibold rounded-xl whitespace-nowrap transition-all bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600">
-                    Guarulhos (GRU)
+                <button onclick="setHubFilter('GRU')" id="filter-hub-GRU" class="hub-filter-btn px-2.5 py-1 text-[11px] font-bold rounded-lg whitespace-nowrap transition-all bg-slate-700 text-slate-300 hover:bg-slate-600">
+                    GRU
                 </button>
-                <button onclick="setHubFilter('CGH')" id="filter-hub-CGH" class="hub-filter-btn px-3 py-1.5 text-xs font-semibold rounded-xl whitespace-nowrap transition-all bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600">
-                    Congonhas (CGH)
+                <button onclick="setHubFilter('CGH')" id="filter-hub-CGH" class="hub-filter-btn px-2.5 py-1 text-[11px] font-bold rounded-lg whitespace-nowrap transition-all bg-slate-700 text-slate-300 hover:bg-slate-600">
+                    CGH
                 </button>
-                <button onclick="setHubFilter('POA')" id="filter-hub-POA" class="hub-filter-btn px-3 py-1.5 text-xs font-semibold rounded-xl whitespace-nowrap transition-all bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600">
-                    Porto Alegre (POA)
+                <button onclick="setHubFilter('POA')" id="filter-hub-POA" class="hub-filter-btn px-2.5 py-1 text-[11px] font-bold rounded-lg whitespace-nowrap transition-all bg-slate-700 text-slate-300 hover:bg-slate-600">
+                    POA
                 </button>
-                <button onclick="setHubFilter('CNF')" id="filter-hub-CNF" class="hub-filter-btn px-3 py-1.5 text-xs font-semibold rounded-xl whitespace-nowrap transition-all bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600">
-                    Confins (CNF)
+                <button onclick="setHubFilter('CNF')" id="filter-hub-CNF" class="hub-filter-btn px-2.5 py-1 text-[11px] font-bold rounded-lg whitespace-nowrap transition-all bg-slate-700 text-slate-300 hover:bg-slate-600">
+                    CNF
                 </button>
-                <button onclick="setHubFilter('VCP')" id="filter-hub-VCP" class="hub-filter-btn px-3 py-1.5 text-xs font-semibold rounded-xl whitespace-nowrap transition-all bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600">
-                    Campinas (VCP)
+                <button onclick="setHubFilter('VCP')" id="filter-hub-VCP" class="hub-filter-btn px-2.5 py-1 text-[11px] font-bold rounded-lg whitespace-nowrap transition-all bg-slate-700 text-slate-300 hover:bg-slate-600">
+                    VCP
                 </button>
             </div>
 
             <!-- Stats & Select State -->
-            <div class="flex items-center justify-between md:justify-end gap-3 border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 dark:border-slate-700">
-                <div class="text-xs font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap">
-                    Encontrados: <strong id="resultsCount" class="text-blue-600 dark:text-blue-400 font-bold">0</strong> siglas
+            <div class="flex items-center justify-between sm:justify-end gap-2 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-700/80">
+                <div class="text-[11px] font-medium text-slate-400 whitespace-nowrap">
+                    Total: <strong id="resultsCount" class="text-blue-400 font-bold">0</strong>
                 </div>
 
                 <!-- State Dropdown -->
-                <select id="stateSelect" onchange="handleSearch()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select id="stateSelect" onchange="handleSearch()" class="px-2.5 py-1 rounded-lg bg-slate-700 text-slate-200 text-[11px] font-bold border border-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 max-w-[180px]">
                     <option value="ALL">Todos os Estados (UF)</option>
-                    <!-- Populated dynamically via JS -->
                 </select>
             </div>
 
         </div>
 
-        <!-- Results Grid Container -->
-        <div id="resultsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <!-- Compact Results Grid Container -->
+        <div id="resultsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-3.5">
             <!-- Cards populated dynamically via JS -->
         </div>
 
         <!-- Empty State -->
-        <div id="emptyState" class="hidden text-center py-16 px-4 bg-white dark:bg-slate-800/50 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-50 dark:bg-blue-950/50 text-blue-500 flex items-center justify-center text-2xl">
-                <i class="fa-solid fa-magnifying-glass font-bold"></i>
+        <div id="emptyState" class="hidden text-center py-10 px-4 bg-slate-800/50 rounded-2xl border border-dashed border-slate-700">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-blue-950/60 text-blue-400 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-1">Nenhuma sigla encontrada</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-4">
-                Não encontramos nenhum resultado para "<span id="emptySearchTerm" class="font-semibold text-slate-700 dark:text-slate-300"></span>". Tente digitar a sigla de 3 letras ou o nome da cidade/estado.
+            <h3 class="text-base font-bold text-white mb-1">Nenhuma sigla encontrada</h3>
+            <p class="text-xs text-slate-400 max-w-xs mx-auto mb-3">
+                Sem resultados para "<span id="emptySearchTerm" class="font-semibold text-slate-300"></span>".
             </p>
-            <button onclick="clearSearch()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition-all">
-                Limpar Filtros e Buscar
+            <button onclick="clearSearch()" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-all">
+                Limpar Busca
             </button>
         </div>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 text-center text-xs text-slate-500 dark:text-slate-400">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p><strong>Roteirização CWB</strong> &bull; Sistema de Consulta de Malha de Transporte e Encomendas</p>
-            <p>Baseado nos painéis oficiais de roteirização Curitiba (CWB)</p>
+    <!-- Compact Footer -->
+    <footer class="mt-auto border-t border-slate-800 bg-slate-900 py-3 text-center text-[11px] text-slate-500">
+        <div class="max-w-7xl mx-auto px-3">
+            <strong>Roteirização CWB</strong> &bull; Consulta de Malha e Encomendas
         </div>
     </footer>
 
     <!-- Modal: View Full Original Roteirização Lists -->
-    <div id="listModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-800 rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+    <div id="listModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4">
+        <div class="bg-slate-800 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-700 overflow-hidden">
             <!-- Modal Header -->
-            <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-800/80">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center">
+            <div class="p-3.5 sm:p-4 border-b border-slate-700 flex items-center justify-between bg-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">
                         <i class="fa-solid fa-file-lines"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Listas Originais da Roteirização CWB</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Visão agrupada idêntica às imagens impressas</p>
+                        <h3 class="text-sm sm:text-base font-bold text-white leading-tight">Tabela Roteirização CWB</h3>
+                        <p class="text-[11px] text-slate-400">Toque em uma sigla para consultar</p>
                     </div>
                 </div>
-                <button onclick="closeModal()" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg">
-                    <i class="fa-solid fa-xmark text-xl"></i>
+                <button onclick="closeModal()" class="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
             <!-- Modal Content (Scrollable) -->
-            <div class="p-6 overflow-y-auto space-y-6 custom-scrollbar text-sm" id="modalGroupContent">
+            <div class="p-3.5 sm:p-5 overflow-y-auto space-y-4 custom-scrollbar text-xs sm:text-sm" id="modalGroupContent">
                 <!-- Content generated dynamically -->
             </div>
 
             <!-- Modal Footer -->
-            <div class="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-right">
-                <button onclick="closeModal()" class="px-5 py-2 bg-slate-800 dark:bg-slate-700 text-white font-semibold text-xs rounded-xl hover:bg-slate-900 transition-colors">
+            <div class="p-3 border-t border-slate-700 bg-slate-800 text-right">
+                <button onclick="closeModal()" class="px-4 py-1.5 bg-slate-700 text-white font-semibold text-xs rounded-lg hover:bg-slate-600 transition-colors">
                     Fechar
                 </button>
             </div>
@@ -286,13 +253,12 @@
     </div>
 
     <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 border border-slate-700 text-xs font-medium">
-        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
-        <span id="toastMessage">Copiado para a área de transferência!</span>
+    <div id="toast" class="fixed bottom-4 right-4 left-4 sm:left-auto z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white px-3.5 py-2.5 rounded-xl shadow-xl flex items-center justify-center sm:justify-start gap-2 border border-slate-700 text-xs font-medium">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+        <span id="toastMessage">Copiado!</span>
     </div>
 
     <script>
-        // Comprehensive Database of all codes present on the updated CWB Roteirização lists.
         const ROUTING_DATA = [
             // --- GUARULHOS – GRU ---
             { code: "PNZ", city: "Petrolina", state: "Pernambuco", uf: "PE", hub: "GUARULHOS – GRU", hubCode: "GRU", region: "Nordeste" },
@@ -389,7 +355,7 @@
             { code: "OPS", city: "Sinop", state: "Mato Grosso", uf: "MT", hub: "CAMPINAS – VCP", hubCode: "VCP", region: "Centro-Oeste" },
             { code: "XAP", city: "Chapecó", state: "Santa Catarina", uf: "SC", hub: "CAMPINAS – VCP", hubCode: "VCP", region: "Sul" },
 
-            // --- HUBS (Para quando alguém pesquisa o próprio Hub) ---
+            // --- HUBS ---
             { code: "GRU", city: "Guarulhos", state: "São Paulo", uf: "SP", hub: "HUB PRINCIPAL", hubCode: "GRU", region: "Sudeste" },
             { code: "CGH", city: "Congonhas", state: "São Paulo", uf: "SP", hub: "HUB PRINCIPAL", hubCode: "CGH", region: "Sudeste" },
             { code: "POA", city: "Porto Alegre", state: "Rio Grande do Sul", uf: "RS", hub: "HUB PRINCIPAL", hubCode: "POA", region: "Sul" },
@@ -398,7 +364,6 @@
             { code: "CWB", city: "Curitiba (Origem Roteirização)", state: "Paraná", uf: "PR", hub: "ORIGEM CWB", hubCode: "CWB", region: "Sul" }
         ];
 
-        // Banner colors by Hub for instant visual identification
         const HUB_BANNER_STYLES = {
             "GRU": "bg-gradient-to-r from-emerald-600 to-teal-700 border-emerald-400/50",
             "CGH": "bg-gradient-to-r from-blue-600 to-indigo-700 border-blue-400/50",
@@ -408,21 +373,26 @@
             "CWB": "bg-gradient-to-r from-cyan-600 to-blue-700 border-cyan-400/50"
         };
 
+        const HUB_COLORS = {
+            "GRU": "bg-emerald-950/90 text-emerald-300 border-emerald-800",
+            "CGH": "bg-indigo-950/90 text-indigo-300 border-indigo-800",
+            "POA": "bg-amber-950/90 text-amber-300 border-amber-800",
+            "CNF": "bg-purple-950/90 text-purple-300 border-purple-800",
+            "VCP": "bg-rose-950/90 text-rose-300 border-rose-800",
+            "CWB": "bg-blue-950/90 text-blue-300 border-blue-800"
+        };
+
         let selectedHub = "ALL";
         let soundEnabled = true;
         let recentSearches = [];
         let lastAnnouncedCode = "";
 
-        // Audio Context for beeps without external MP3 files
         function playFeedback(type) {
             if (!soundEnabled) return;
-
-            // Mobile vibration
             if (navigator.vibrate) {
                 if (type === 'success') navigator.vibrate(40);
                 if (type === 'error') navigator.vibrate([80, 50, 80]);
             }
-
             try {
                 const AudioCtx = window.AudioContext || window.webkitAudioContext;
                 if (!AudioCtx) return;
@@ -449,9 +419,7 @@
                     osc.start();
                     osc.stop(ctx.currentTime + 0.19);
                 }
-            } catch (e) {
-                // Ignore audio block errors before user interaction
-            }
+            } catch (e) {}
         }
 
         function toggleSound() {
@@ -467,35 +435,18 @@
             }
         }
 
-        // Colors mapping for Hub Badges
-        const HUB_COLORS = {
-            "GRU": "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800",
-            "CGH": "bg-indigo-100 text-indigo-800 dark:bg-indigo-950/80 dark:text-indigo-300 border-indigo-300 dark:border-indigo-800",
-            "POA": "bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border-amber-300 dark:border-amber-800",
-            "CNF": "bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300 border-purple-300 dark:border-purple-800",
-            "VCP": "bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300 border-rose-300 dark:border-rose-800",
-            "CWB": "bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-300 border-blue-300 dark:border-blue-800"
-        };
-
-        // Initialize App
         window.addEventListener('DOMContentLoaded', () => {
             populateStateSelect();
             renderResults();
             buildModalContent();
-            
-            // Garante que o modo noturno sempre esteja ativado
             document.documentElement.classList.add('dark');
         });
 
-        // Populate State Dropdown Options
         function populateStateSelect() {
             const stateSelect = document.getElementById('stateSelect');
-            stateSelect.innerHTML = '<option value="ALL">Todos os Estados (UF)</option>';
-            
-            // Get unique UFs and sort them
+            stateSelect.innerHTML = '<option value="ALL">Todos Estados</option>';
             const ufs = [...new Map(ROUTING_DATA.map(item => [item.uf, item.state])).entries()];
             ufs.sort((a, b) => a[0].localeCompare(b[0]));
-
             ufs.forEach(([uf, stateName]) => {
                 const option = document.createElement('option');
                 option.value = uf;
@@ -504,18 +455,17 @@
             });
         }
 
-        // Filter Handlers
         function setHubFilter(hubCode) {
             selectedHub = hubCode;
             document.querySelectorAll('.hub-filter-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
-                btn.classList.add('bg-slate-100', 'dark:bg-slate-700', 'text-slate-600', 'dark:text-slate-300');
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-slate-700', 'text-slate-300');
             });
 
             const activeBtn = document.getElementById(`filter-hub-${hubCode}`);
             if (activeBtn) {
-                activeBtn.classList.remove('bg-slate-100', 'dark:bg-slate-700', 'text-slate-600', 'dark:text-slate-300');
-                activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+                activeBtn.classList.remove('bg-slate-700', 'text-slate-300');
+                activeBtn.classList.add('bg-blue-600', 'text-white');
             }
 
             handleSearch();
@@ -542,21 +492,20 @@
         function addRecentSearch(code) {
             recentSearches = recentSearches.filter(c => c !== code);
             recentSearches.unshift(code);
-            if (recentSearches.length > 5) recentSearches.pop();
+            if (recentSearches.length > 4) recentSearches.pop();
 
             const container = document.getElementById('recentSearchesContainer');
             const list = document.getElementById('recentSearchesList');
             if (recentSearches.length > 0) {
                 container.classList.remove('hidden');
                 list.innerHTML = recentSearches.map(c => `
-                    <button onclick="setSearch('${c}')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-blue-600 text-amber-300 hover:text-white border border-slate-700 font-mono font-bold text-[11px] transition-colors">
+                    <button onclick="setSearch('${c}')" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-blue-600 text-amber-300 hover:text-white border border-slate-700 font-mono font-bold text-[10px]">
                         ${c}
                     </button>
                 `).join('');
             }
         }
 
-        // Search & Filter Processing
         function handleSearch() {
             const inputEl = document.getElementById('searchInput');
             const query = inputEl.value.trim().toUpperCase();
@@ -572,7 +521,6 @@
             }
 
             const filtered = ROUTING_DATA.filter(item => {
-                // Match search query
                 const matchesQuery = !query || 
                     item.code.toUpperCase().includes(query) ||
                     item.city.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(query.normalize("NFD").replace(/[\u0300-\u036f]/g, "")) ||
@@ -580,51 +528,45 @@
                     item.uf.toUpperCase() === query ||
                     item.hub.toUpperCase().includes(query);
 
-                // Match Hub filter
                 const matchesHub = (selectedHub === 'ALL') || (item.hubCode === selectedHub);
-
-                // Match State filter
                 const matchesState = (stateFilter === 'ALL') || (item.uf === stateFilter);
 
                 return matchesQuery && matchesHub && matchesState;
             });
 
-            // Check for exact code match (e.g. user typed "NAT")
             const exactMatches = ROUTING_DATA.filter(item => item.code.toUpperCase() === query);
 
             if (exactMatches.length > 0 && query.length >= 2) {
                 const primaryMatch = exactMatches[0];
                 const bannerTheme = HUB_BANNER_STYLES[primaryMatch.hubCode] || "bg-gradient-to-r from-blue-600 to-indigo-600 border-white/20";
                 
-                const hubsList = exactMatches.map(m => `<span class="bg-white text-slate-900 font-black px-3 py-1 rounded-xl text-lg sm:text-xl shadow-md inline-flex items-center gap-2"><i class="fa-solid fa-plane-arrival text-sm"></i> ${m.hub}</span>`).join(' <span class="text-xs opacity-80 font-semibold">ou</span> ');
+                const hubsList = exactMatches.map(m => `<span class="bg-white text-slate-900 font-black px-2.5 py-1 rounded-lg text-base sm:text-lg shadow inline-flex items-center gap-1.5"><i class="fa-solid fa-plane-arrival text-xs"></i> ${m.hub}</span>`).join(' <span class="text-[11px] opacity-80">ou</span> ');
 
-                quickCard.className = `max-w-xl mx-auto mt-4 p-5 rounded-2xl text-white shadow-2xl text-left border-2 transition-all duration-300 ${bannerTheme}`;
+                quickCard.className = `max-w-xl mx-auto mt-2 p-3 sm:p-4 rounded-xl text-white shadow-xl text-left border-2 transition-all duration-200 ${bannerTheme}`;
                 quickCard.innerHTML = `
-                    <div class="flex items-center justify-between border-b border-white/25 pb-2 mb-3">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl font-black font-mono tracking-widest bg-black/25 px-3 py-0.5 rounded-xl border border-white/30">${primaryMatch.code}</span>
-                            <span class="text-xs font-black uppercase tracking-wider bg-black/25 px-2.5 py-1 rounded-md">${primaryMatch.uf} - ${primaryMatch.state}</span>
+                    <div class="flex items-center justify-between border-b border-white/25 pb-1.5 mb-2 gap-2">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="text-xl sm:text-2xl font-black font-mono tracking-wider bg-black/25 px-2.5 py-0.5 rounded-lg border border-white/30">${primaryMatch.code}</span>
+                            <span class="text-[11px] font-black uppercase bg-black/25 px-2 py-0.5 rounded">${primaryMatch.uf} - ${primaryMatch.state}</span>
                         </div>
-                        <span class="text-xs font-bold opacity-95"><i class="fa-solid fa-location-dot"></i> ${primaryMatch.city}</span>
+                        <span class="text-[11px] font-bold opacity-95 text-right truncate"><i class="fa-solid fa-location-dot"></i> ${primaryMatch.city}</span>
                     </div>
-                    <div>
-                        <span class="text-xs uppercase font-extrabold tracking-wider text-white/90 block mb-1">
-                            <i class="fa-solid fa-arrow-right-long"></i> ROTEIRIZAÇÃO / VAI PARA:
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                        <span class="text-[10px] uppercase font-extrabold tracking-wider text-white/90">
+                            <i class="fa-solid fa-arrow-right"></i> VAI PARA:
                         </span>
-                        <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <div class="flex flex-wrap items-center gap-1.5">
                             ${hubsList}
                         </div>
                     </div>
                 `;
                 quickCard.classList.remove('hidden');
 
-                // Trigger audio/history/auto-select once per exact 3-letter code
                 if (lastAnnouncedCode !== query) {
                     lastAnnouncedCode = query;
                     playFeedback('success');
                     addRecentSearch(query);
 
-                    // Auto-select text when 3 characters are typed for instant next scan/typing
                     if (query.length === 3 && document.getElementById('autoSelectToggle').checked) {
                         setTimeout(() => {
                             inputEl.select();
@@ -633,7 +575,6 @@
                 }
             } else {
                 quickCard.classList.add('hidden');
-                // Play warning sound if user typed 3 letters and nothing matched at all
                 if (query.length === 3 && filtered.length === 0 && lastAnnouncedCode !== `ERR_${query}`) {
                     lastAnnouncedCode = `ERR_${query}`;
                     playFeedback('error');
@@ -648,7 +589,7 @@
             renderResults(filtered, query);
         }
 
-        // Render Cards to Page
+        // Compact Card Layout optimized for mobile screens
         function renderResults(data = ROUTING_DATA, query = '') {
             const grid = document.getElementById('resultsGrid');
             const emptyState = document.getElementById('emptyState');
@@ -668,58 +609,45 @@
             grid.classList.remove('hidden');
 
             grid.innerHTML = data.map(item => {
-                const hubBadgeClass = HUB_COLORS[item.hubCode] || "bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-200 border-slate-300";
+                const hubBadgeClass = HUB_COLORS[item.hubCode] || "bg-slate-700 text-slate-200 border-slate-600";
 
                 return `
-                <div class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+                <div class="bg-slate-800 rounded-xl p-3 sm:p-4 border border-slate-700/80 shadow-sm hover:border-slate-600 transition-all flex flex-col justify-between gap-2">
                     
-                    <div>
-                        <!-- Card Header: Code & UF -->
-                        <div class="flex items-start justify-between gap-2 mb-3">
-                            <div>
-                                <span class="font-mono font-black text-3xl tracking-wider text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                                    ${item.code}
-                                </span>
-                            </div>
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-black bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-sm">
-                                ESTADO: ${item.uf}
+                    <!-- Top Row: Code + UF + Copy Button -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono font-black text-2xl tracking-wider text-white">
+                                ${item.code}
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[11px] font-black bg-slate-100 text-slate-900">
+                                ${item.uf}
                             </span>
                         </div>
-
-                        <!-- DESTINO / VAI PARA HIGHLIGHT -->
-                        <div class="mb-4 p-3 rounded-xl bg-blue-50 dark:bg-slate-900/80 border border-blue-100 dark:border-slate-700">
-                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400 block mb-0.5">
-                                <i class="fa-solid fa-paper-plane mr-1"></i> VAI PARA (DESTINO):
-                            </span>
-                            <span class="inline-flex items-center gap-1.5 text-sm sm:text-base font-black ${hubBadgeClass} px-2.5 py-1 rounded-lg border w-full justify-center">
-                                ${item.hub}
-                            </span>
-                        </div>
-
-                        <!-- City & State Info -->
-                        <div class="space-y-1 mb-2 px-1">
-                            <h4 class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">
-                                <i class="fa-solid fa-city text-slate-400 text-xs mr-1"></i> ${item.city}
-                            </h4>
-                            <p class="text-xs font-medium text-slate-500 dark:text-slate-400">
-                                Estado: <strong class="text-slate-700 dark:text-slate-300 font-semibold">${item.state}</strong> (${item.uf})
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Footer Action -->
-                    <div class="pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs">
-                        <span class="text-[11px] font-medium text-slate-400">
-                            Região: ${item.region}
-                        </span>
 
                         <button 
                             onclick="copyToClipboard('${item.code}', '${item.city}', '${item.state}', '${item.uf}', '${item.hub}')" 
-                            title="Copiar dados" 
-                            class="px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-600 transition-colors flex items-center gap-1 font-semibold text-xs">
+                            title="Copiar" 
+                            class="px-2 py-1 rounded-lg bg-slate-700/80 text-slate-300 hover:text-blue-400 hover:bg-slate-700 transition-colors flex items-center gap-1 font-semibold text-[11px]">
                             <i class="fa-regular fa-copy"></i>
-                            <span>Copiar</span>
+                            <span class="hidden sm:inline">Copiar</span>
                         </button>
+                    </div>
+
+                    <!-- City & State Line -->
+                    <div class="text-xs leading-tight">
+                        <span class="font-bold text-slate-100">${item.city}</span>
+                        <span class="text-slate-400"> &bull; ${item.state}</span>
+                    </div>
+
+                    <!-- Destination Box (Compact) -->
+                    <div class="px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/80 flex items-center justify-between gap-2">
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-blue-400 shrink-0">
+                            DESTINO:
+                        </span>
+                        <span class="text-xs font-black ${hubBadgeClass} px-2 py-0.5 rounded border truncate">
+                            ${item.hub}
+                        </span>
                     </div>
 
                 </div>
@@ -727,35 +655,34 @@
             }).join('');
         }
 
-        // Build Modal Content (Visual grouped layout matching photos)
         function buildModalContent() {
             const container = document.getElementById('modalGroupContent');
             const hubs = [
-                { name: "GUARULHOS – GRU", code: "GRU", desc: "Foto 1 (Guarulhos)" },
-                { name: "CONGONHAS – CGH", code: "CGH", desc: "Foto 1 (Congonhas)" },
-                { name: "PORTO ALEGRE – POA", code: "POA", desc: "Foto 1 (Porto Alegre)" },
-                { name: "CONFINS – CNF", code: "CNF", desc: "Foto 2 (Confins)" },
-                { name: "CAMPINAS – VCP", code: "VCP", desc: "Foto 2 (Campinas)" }
+                { name: "GUARULHOS – GRU", code: "GRU" },
+                { name: "CONGONHAS – CGH", code: "CGH" },
+                { name: "PORTO ALEGRE – POA", code: "POA" },
+                { name: "CONFINS – CNF", code: "CNF" },
+                { name: "CAMPINAS – VCP", code: "VCP" }
             ];
 
             container.innerHTML = hubs.map(hub => {
                 const items = ROUTING_DATA.filter(i => i.hubCode === hub.code);
                 return `
-                <div class="bg-slate-50 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-center justify-between mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">
-                        <h4 class="font-extrabold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                <div class="bg-slate-900/70 p-3.5 rounded-xl border border-slate-700">
+                    <div class="flex items-center justify-between mb-2.5 border-b border-slate-700 pb-1.5">
+                        <h4 class="font-extrabold text-xs sm:text-sm text-white flex items-center gap-1.5">
                             <i class="fa-solid fa-plane text-blue-500"></i> ${hub.name}
                         </h4>
-                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
-                            ${items.length} siglas
+                        <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-blue-900/50 text-blue-300">
+                            ${items.length}
                         </span>
                     </div>
 
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-1.5">
                         ${items.map(item => `
-                            <button onclick="closeModal(); setSearch('${item.code}');" class="group flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-slate-800 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 rounded-xl border border-slate-200 dark:border-slate-700 transition-all shadow-sm">
+                            <button onclick="closeModal(); setSearch('${item.code}');" class="flex items-center gap-1 px-2 py-1 bg-slate-800 hover:bg-blue-600 text-white rounded-lg border border-slate-700 transition-colors">
                                 <span class="font-mono font-black text-xs">${item.code}</span>
-                                <span class="text-[10px] text-slate-500 dark:text-slate-400 group-hover:text-white">(${item.uf})</span>
+                                <span class="text-[10px] text-slate-400">(${item.uf})</span>
                             </button>
                         `).join('')}
                     </div>
@@ -764,14 +691,12 @@
             }).join('');
         }
 
-        // Clipboard Copy Helper
         function copyToClipboard(code, city, state, uf, hub) {
             const textToCopy = `Sigla: ${code} | Cidade: ${city} | Estado: ${state} (${uf}) | Roteirização: ${hub}`;
             
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(textToCopy).then(() => showToast(code, uf));
             } else {
-                // Fallback for iframe restrictions
                 const textarea = document.createElement('textarea');
                 textarea.value = textToCopy;
                 document.body.appendChild(textarea);
@@ -785,16 +710,13 @@
         function showToast(code, uf) {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toastMessage');
-            toastMessage.textContent = `Sigla ${code} - Estado ${uf} copiada com sucesso!`;
-            
+            toastMessage.textContent = `Sigla ${code} (${uf}) copiada!`;
             toast.classList.remove('translate-y-20', 'opacity-0');
-            
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
-            }, 2500);
+            }, 2200);
         }
 
-        // Modal Control
         function openModal() {
             buildModalContent();
             document.getElementById('listModal').classList.remove('hidden');
@@ -811,7 +733,7 @@
             toast.classList.remove('translate-y-20', 'opacity-0');
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
-            }, 2500);
+            }, 2200);
         }
     </script>
 
